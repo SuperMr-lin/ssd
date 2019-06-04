@@ -1,7 +1,8 @@
 //请求路径配置
-//端口
-export const HeadPort ="http://service.schhsw.com:7300/mock/5c77a7a7ddfb6e0016d016c6/DSS";
-
+//端口 http://192.168.1.111:8082/
+// export const HeadPort ="http://service.schhsw.com:7300/mock/5c77a7a7ddfb6e0016d016c6/DSS";
+// export const HeadPort = "http://localhost:2334";
+export const HeadPort = "http://10.66.66.12:2334";
 //user
 //用户
 export const UserUrl =  "/api/user";
@@ -46,8 +47,6 @@ export const HospIncomeUrl = "/ExpenseAnalysis/Hospital/Function?type=0";
 export const HospIncomeTypeUrl = "/ExpenseAnalysis/InAndDep/Expense?type=0";
 //全院科室收入-313
 export const HospIncomeDepUrl =  "/ExpenseAnalysis/InAndDep/Income?type=0";
-//全院科室收入占比-314
-export const HospIncomeDepProportionUrl =  "/ExpenseAnalysis/InAndDep/Income?type=0";
 //全院收入按财务分类构成-315
 export const HospIncomeFinancialClassifyUrl = "/ExpenseAnalysis/InAndDep/Finance?type=0";
 //全院收入月趋势-316
@@ -118,13 +117,19 @@ export const SpecReduFeeWaiverTypeUrl = "/ExpenseAnalysis/SpecialReduction/Reduc
 
 //4. 诊疗活动分析
 //4.1 患者来源分析
-export const TreatmentAnalysisPatUrl = "/TreatmentAnalysis/Pat";
-// 4.1.1 按时间周期和年龄组分类的比例图
-// 4.1.2 按时间周期和性别分类的比例图
-// 4.1.3 按时间周期和病人类型构成的比例图
-// 4.1.4 按时间周期和科室分类的比例图
-// 4.1.5 按时间周期计算的门诊人次趋势图
-// 4.1.6 按时间周期计算的同环比列表
+
+// 4.1.1 按时间周期和病人年龄组分类的比例图
+export const TreatmentAnalysisPatByAge = "/TreatmentAnalysis/Pat/ByAge";
+// 4.1.2 按时间周期和病人类型的比例图(门诊)
+export const TreatmentAnalysisPatByType0 = "/TreatmentAnalysis/Pat/ByType?type=0";
+// 4.1.2 按时间周期和病人类型的比例图(住院)
+export const TreatmentAnalysisPatByType1 = "/TreatmentAnalysis/Pat/ByType?type=1";
+// 4.1.3 按时间周期和病人就诊科室分类的比例图
+export const TreatmentAnalysisPatByDep = "/TreatmentAnalysis/Pat/ByDep";
+// 4.1.4 按时间周期计算的门诊人次趋势图
+export const TreatmentAnalysisPatOutdep = "/TreatmentAnalysis/Pat/Outdep";
+// 4.1.5 按时间周期计算的同环比列表
+export const TreatmentAnalysisPatRatio = "/TreatmentAnalysis/Pat/ratio";
 
 //4.2 门诊量分析
 //4.2.1 门诊量趋势图
@@ -146,16 +151,20 @@ export const WorkoadByDepUrl = "/TreatmentAnalysis/Workoad/ByDep";
 export const WorkoadByDocUrl = "/TreatmentAnalysis/Workoad/ByDoc";
 //4.4.3 按检验项目标本份数统计
 //4.4.4 按检验项目检验费用统计
+export const WorkoadByInspectUrl0 = "/TreatmentAnalysis/Workoad/ByInspect?type=0";
 //4.4.5 按检查项目标本份数统计
 // 4.4.6 按检查项目检验费用统计
-export const WorkoadByInspectUrl = "/TreatmentAnalysis/Workoad/ByInspect";
+export const WorkoadByInspectUrl1 = "/TreatmentAnalysis/Workoad/ByInspect?type=1";
+
 //4.4.7 医生开具检验项目统计
+export const WorkoadByDocInspectUrl0 = "/TreatmentAnalysis/Workoad/ByDocInspect?type=0";
 // 4.4.8 医生开具检查项目统计
-export const WorkoadByDocInspectUrl = "/TreatmentAnalysis/Workoad/ByDocInspect";
+export const WorkoadByDocInspectUrl1 = "/TreatmentAnalysis/Workoad/ByDocInspect?type=1";
 
 //4.4.9 科室开具检验项目统计
+export const WorkoadByDepInspectUrl0 = "/TreatmentAnalysis/Workoad/ByDepInspect?type=0";
 // 4.4.10 科室开具检查项目统计
-export const WorkoadByDepInspectUrl = "/TreatmentAnalysis/Workoad/ByDepInspect";
+export const WorkoadByDepInspectUrl1 = "/TreatmentAnalysis/Workoad/ByDepInspect?type=1";
 // 4.4.11 科室手术工作量统计
 export const WorkoadDepOperUrl = "/TreatmentAnalysis/Workoad/DepOper";
 // 4.4.12 手术项目工作量统计
@@ -167,8 +176,9 @@ export const WorkoadOperUrl = "/TreatmentAnalysis/Workoad/Oper";
 export const TreatmentAnalysisInPatUrl = "/TreatmentAnalysis/InPat";
 
 // 4.6 床位使用状况分析
-// 4.7 门诊挂号类别统计
 export const TreatmentAnalysisBedUrl = "/TreatmentAnalysis/Bed";
+// 4.7 门诊挂号类别统计
+export const TreatmentAnalysisOutPatRegistrationUrl = "/TreatmentAnalysis/OutPatRegistration";
 
 
 // 5. 药品分析
@@ -193,9 +203,11 @@ export const MedAnalysisMedTotalCostUrl = "/MedAnalysis/MedTotalCost";
 
 // 5.6 药品收入比重分析
 // 5.6.1 各医生药品收入占医疗收入比重分析
+export const MedAnalysisMedProportionUrl0 = "/MedAnalysis/MedProportion?type=0";
 // 5.6.2 各科室药品收入占医疗收入比重分析
+export const MedAnalysisMedProportionUrl1 = "/MedAnalysis/MedProportion?type=1";
 // 5.6.3 各病种药品收入占医疗收入比重分析
-export const MedAnalysisMedProportionUrl = "/MedAnalysis/MedProportion";
+export const MedAnalysisMedProportionUrl2 = "/MedAnalysis/MedProportion?type=2";
 
 // 5.7 控制类药品分析
 // 5.7.1 按特殊药品类型占比分析
@@ -207,30 +219,38 @@ export const ControlledMedByDocUrl = "/MedAnalysis/ControlledMed/ByDoc";
 // 5.8.1 全院抗菌药品统计指标监控表
 export const AntibacterialMedHosStatisticalUrl = "/MedAnalysis/AntibacterialMed/HosStatistical";
 // 5.8.2 各病种就诊使用抗菌药物占比
+export const AntibacterialMedAntiMedPercentUrl0 = "/MedAnalysis/AntibacterialMed/VisAntiMedPercent?type=0";
 // 5.8.3 各医生就诊使用抗菌药物占比
-export const AntibacterialMedAntiMedPercentUrl = "/MedAnalysis/AntibacterialMed/VisAntiMedPercent";
+export const AntibacterialMedAntiMedPercentUrl1 = "/MedAnalysis/AntibacterialMed/VisAntiMedPercent?type=1";
 // 5.8.4 抗菌药物使用强度趋势图
+export const AntibacterialMedAntiMedUseTrendUrl0 = "/MedAnalysis/AntibacterialMed/AntiMedUseTrend?type=0";
 // 5.8.5 各病种抗菌药物使用强度对比
-export const AntibacterialMedAntiMedUseTrendUrl = "/MedAnalysis/AntibacterialMed/AntiMedUseTrend";
+export const AntibacterialMedAntiMedUseTrendUrl1 = "/MedAnalysis/AntibacterialMed/AntiMedUseTrend?type=1";
 // 5.8.6 抗菌药物占药费总额百分率
+export const AntibacterialMedAntiMedTotalFeeProportionUrl0 = "/MedAnalysis/AntibacterialMed/AntiMedTotalFeeProportion?type=0";
 // 5.8.7 各病种抗菌药物占药费总额百分比
+export const AntibacterialMedAntiMedTotalFeeProportionUrl1 = "/MedAnalysis/AntibacterialMed/AntiMedTotalFeeProportion?type=1";
 // 5.8.8 各科室抗菌药物占药费总额百分比
-export const AntibacterialMedAntiMedTotalFeeProportionUrl = "/MedAnalysis/AntibacterialMed/AntiMedTotalFeeProportion";
+export const AntibacterialMedAntiMedTotalFeeProportionUrl2 = "/MedAnalysis/AntibacterialMed/AntiMedTotalFeeProportion?type=2";
 // 5.8.9 各医生住院患者人均使用抗菌药物品种数
+export const AntibacterialMedInPatUseAntiMedVarietyUrl0 = "/MedAnalysis/AntibacterialMed/InPatUseAntiMedVariety?type=0";
 // 5.8.10 各病种住院患者人均使用抗菌药物品种数
-export const AntibacterialMedInPatUseAntiMedVarietyUrl = "/MedAnalysis/AntibacterialMed/InPatUseAntiMedVariety";
+export const AntibacterialMedInPatUseAntiMedVarietyUrl1 = "/MedAnalysis/AntibacterialMed/InPatUseAntiMedVariety?type=1";
 // 5.8.11 住院患者人均使用抗菌药物费用趋势
+export const AntibacterialMedInPatUseAntiMedFeeUrl0 = "/MedAnalysis/AntibacterialMed/InPatUseAntiMedFee?type=0";
 // 5.8.12 各病种住院患者人均使用抗菌药物费用
-export const AntibacterialMedInPatUseAntiMedFeeUrl = "/MedAnalysis/AntibacterialMed/InPatUseAntiMedFee";
+export const AntibacterialMedInPatUseAntiMedFeeUrl1 = "/MedAnalysis/AntibacterialMed/InPatUseAntiMedFee?type=1";
 // 5.8.13 各科室住院患者使用抗菌药物比例对比
+export const AntibacterialMedInPatUseAntiMedProportionUrl0 = "/MedAnalysis/AntibacterialMed/InPatUseAntiMedProportion?type=0";
 // 5.8.14 各病种住院患者使用抗菌药物比例对比
-export const AntibacterialMedInPatUseAntiMedProportionUrl = "/MedAnalysis/AntibacterialMed/InPatUseAntiMedProportion";
+export const AntibacterialMedInPatUseAntiMedProportionUrl1 = "/MedAnalysis/AntibacterialMed/InPatUseAntiMedProportion?type=1";
 // 5.8.15 住院用抗菌药物患者病原学检查比率趋势
+export const AntibacterialMedAntiMedCheckProportionUrl0 = "/MedAnalysis/AntibacterialMed/AntiMedCheckProportion?type=0";
 // 5.8.16 各病种抗菌药物患者病原学检查比率趋势
-export const AntibacterialMedAntiMedCheckProportionUrl = "/MedAnalysis/AntibacterialMed/AntiMedCheckProportion";
+export const AntibacterialMedAntiMedCheckProportionUrl1 = "/MedAnalysis/AntibacterialMed/AntiMedCheckProportion?type=1";
 
 // 5.9 药品库存趋势分析
-export const MedAnalysisMedStockTrendUrl = "/MedAnalysis/MedAnalysis/MedStockTrend";
+export const MedAnalysisMedStockTrendUrl = "/MedAnalysis/MedStockTrend";
 
 //5.10 药品使用模式分析
 

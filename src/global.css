@@ -9,12 +9,11 @@ body {
 table{
     width: 100%;
 }
-table td,th{
-    border: 1px dashed #ddd;
-    
+
+.main_container {
+    position: relative;
+    padding: 0 170px 144px 64px;
 }
-table th{
-  padding:10px 2px;
-  text-align: center;
-  background: #b7c2c7;
+.font-red{
+    color: red;
 }

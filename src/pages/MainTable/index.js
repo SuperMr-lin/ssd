@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Layout, Form, Card,  Alert  } from 'antd';
+import { Layout, Form, Card, Alert, Progress, Table, Input, Button, Icon } from 'antd';
+import Highlighter from 'react-highlight-words';
 import moment from 'moment';
 import DatePicker from '../../components/DatePicker';
 import styles from './index.less';
@@ -12,8 +13,8 @@ import { tableTitleTh } from '../../utils/tableTitleCfg';
 const {
     Header, Content
 } = Layout;
-@connect(({ card }) => ({
-    card
+@connect(({ table }) => ({
+    table
 }))
 class MainTable extends Component {
     constructor(props) {
@@ -21,14 +22,14 @@ class MainTable extends Component {
         this.state = {
             loading: false,
             tjrq: "",
-            picker:this.props.location.state.picker,
+            picker: this.props.location.state.picker,
             tableThList: [],
             tableTitle: this.props.location.query.name,
-            tableData: []
+            tableData: [],
+            searchText: ""
         }
     }
     componentWillMount() {
-        this.getNewThList();
         this.getTableInfo("");
     }
     componentWillUpdate(nextProps) {
@@ -40,12 +41,11 @@ class MainTable extends Component {
                 {
                     tableTitle: this.props.location.query.name
                 }, () => {
-                    this.getNewThList();
-                    this.getTableInfo("");
+                    this.getTableInfo(this.state.tjrq);
                 });
         }
     }
-    getNewThList=()=>{
+    getNewThList = () => {
         const tableId = this.props.location.state.id;
         const NewThList = this.SetMenuList(tableId);
         this.setState(() => ({
@@ -58,14 +58,16 @@ class MainTable extends Component {
             return e.id == key;
         })
     }
-    //获取表格标题
-    // getTableTitle = (s) => {
-    //     return eval('table_' + s);
-    // }
     getTableInfo = (currentdate) => {
         const { dispatch } = this.props;
+        this.getNewThList();
         if (currentdate === "") {
-            const dateFormat = 'YYYY-MM-DD';
+            let dateFormat;
+            if (this.state.picker === "MonthPicker") {
+                dateFormat = 'YYYY-MM';
+            } else {
+                dateFormat = 'YYYY-MM-DD';
+            }
             currentdate = moment().format(dateFormat);
         }
         const echartsUrl = this.props.location.state.type;
@@ -74,23 +76,24 @@ class MainTable extends Component {
             echartsUrl: echartsUrl
         }
         dispatch({
-            type: 'card/fetchDeansDaily',
+            type: 'table/fetchtable',
             payload: { payload }
         }).then((res) => {
-            const cardData = res;
-            let tableDatelist = [];
-            for (var i = 0; i < cardData.length; i++) {
-                let seriesDatelist = [];
-                for (var key in cardData[i]) {
-                    seriesDatelist.push(cardData[i][key]);
-                }
-                tableDatelist.push(seriesDatelist);
+            const tableData = res;
+            if (tableData.code === 1) {
+                this.setState({
+                    loading: true,
+                    tjrq: currentdate,
+                    tableData: tableData.data
+                })
+            } else {
+                this.setState({
+                    loading: false,
+                    tjrq: currentdate,
+                    tableData: tableData.data
+                })
             }
-            this.setState({
-                loading: true,
-                tjrq: currentdate,
-                tableData: tableDatelist
-            })
+
         })
     }
     handleSubmit = (e) => {
@@ -98,7 +101,12 @@ class MainTable extends Component {
         const { form } = this.props;
         form.validateFields((err, values) => {
             if (!err) {
-                const currentdate = values['date-picker'].format('YYYY-MM-DD');
+                let currentdate;
+                if (this.state.picker === "MonthPicker") {
+                    currentdate = values['date-picker'].format('YYYY-MM');
+                } else {
+                    currentdate = values['date-picker'].format('YYYY-MM-DD');
+                }
                 if (this.state.tjrq === currentdate) {
                     return;
                 } else {
@@ -107,48 +115,111 @@ class MainTable extends Component {
             }
         });
     }
-  
+    getColumnSearchProps = dataIndex => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+            <div style={{ padding: 8 }}>
+                <Input
+                    ref={node => {
+                        this.searchInput = node;
+                    }}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+                    style={{ width: 188, marginBottom: 8, display: 'block' }}
+                />
+                <Button
+                    type="primary"
+                    onClick={() => this.handleSearch(selectedKeys, confirm)}
+                    icon="search"
+                    size="small"
+                    style={{ width: 90, marginRight: 8 }}
+                >
+                    Search
+        </Button>
+                <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+                    Reset
+        </Button>
+            </div>
+        ),
+        filterIcon: filtered => (
+            <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex]
+                .toString()
+                .toLowerCase()
+                .includes(value.toLowerCase()),
+        onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+                setTimeout(() => this.searchInput.select());
+            }
+        },
+        render: text => (
+            <Highlighter
+                highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+                searchWords={[this.state.searchText]}
+                autoEscape
+                textToHighlight={text.toString()}
+            />
+        ),
+    });
+    handleSearch = (selectedKeys, confirm) => {
+        confirm();
+        this.setState({ searchText: selectedKeys[0] });
+    };
+
+    handleReset = clearFilters => {
+        clearFilters();
+        this.setState({ searchText: '' });
+    };
     getTableHtml = (tableThList, tableData) => {
-        return (
-            <table className={styles.MainTable_table} >
-                <thead>
-                    <tr>
-                        {
-                            tableThList.map((item,index) => {
-                                return (
-                                    <th key={index}>{item}</th>
-                                )
-                            })
-                        }
-                    </tr>
-
-                </thead>
-                <tbody>
-                    {
-                        tableData.map((item, j) => {
-                            return (
-                                <tr key={j}>
-                                    {
-                                        item.map((itemChild, k) => {
-                                            return (
-                                                <td key={k} >{itemChild}</td>
-                                            )
-                                        })
-                                    }
-                                </tr>
-                            )
-                        })
+        let columns = [];
+        const tableTitle_Key = Object.keys(tableData[0]);
+        for (let i = 0; i < tableTitle_Key.length; i++) {
+            let columnsChild = {};
+            columnsChild = {
+                title: tableThList[i],
+                dataIndex: tableTitle_Key[i],
+                key: tableTitle_Key[i],
+                render: text => {
+                    let itemChildStr = text.toString();
+                    let itemChildNum = Number(text);
+                    if (!isNaN(itemChildNum) && itemChildNum <= 0) {
+                        return (
+                            <span className="font-red">{text}</span>
+                        )
                     }
-                </tbody>
-            </table>
-
+                    if (itemChildStr.indexOf("%") > -1) {
+                        return (
+                                <Progress
+                                    percent={itemChildStr.replace("%", "")}
+                                    size="small"
+                                    status="active"
+                                    format={(percent) => {
+                                        return percent
+                                    }}
+                                />
+                        )
+                    }
+                    return  text;
+                },
+                // 搜索  暂时有点BUG 
+                // ...this.getColumnSearchProps(tableTitle_Key[i]),
+            };
+            columns.push(columnsChild);
+        }
+        for (let k = 0; k < tableData.length; k++) {
+            tableData[k].key = (k + 1);
+        }
+        const dataSource = tableData;
+        return (
+            <Table columns={columns} dataSource={dataSource} bordered className={styles.MainTable_table} />
         )
     }
-
     render() {
-        const {tableTitle, tableData, tableThList } = this.state;
+        const { tableTitle, tableData, tableThList, loading } = this.state;
         const { getFieldDecorator } = this.props.form;
-        const { card } = this.props;
         return (
             <Layout style={{ height: '100%' }}>
                 <Header style={{ background: '#fff' }}>
@@ -158,21 +229,19 @@ class MainTable extends Component {
                         picker={this.state.picker}
                     />
                 </Header>
-                <Content>
+                <Content className="main_container">
                     {
-                        card.code === 0 ? <Alert message="暂无数据，请稍后再试" type="warning" showIcon closable /> : (
+                        !loading ? <Alert message="暂无数据，请稍后再试" type="warning" showIcon closable /> : (
                             <Card title={tableTitle} style={{ marginTop: '50px' }}>
                                 {this.getTableHtml(tableThList, tableData)}
                             </Card>
                         )
                     }
-                    
+
                 </Content>
             </Layout>
         );
     }
 
 }
-// <Table columns={columns} dataSource={data} />
-
 export default Form.create()(MainTable);

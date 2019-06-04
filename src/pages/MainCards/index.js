@@ -52,7 +52,12 @@ class MainReport extends Component {
         const { form } = this.props;
         form.validateFields((err, values) => {
             if (!err) {
-                const currentdate = values['date-picker'].format('YYYY-MM-DD');
+                let currentdate;
+                if (this.state.picker === "MonthPicker") {
+                    currentdate = values['date-picker'].format('YYYY-MM');
+                } else {
+                    currentdate = values['date-picker'].format('YYYY-MM-DD');
+                }
                 if (this.state.tjrq === currentdate) {
                     return;
                 } else {
@@ -73,7 +78,7 @@ class MainReport extends Component {
                         handleSubmit={this.handleSubmit}
                     />
                 </Header>
-                <Content>
+                <Content className="main_container">
                     {
                         card.code === 0 ? <Alert message="暂无数据，请稍后再试" type="warning" showIcon closable /> : <Cards card={cardData} />
                     }

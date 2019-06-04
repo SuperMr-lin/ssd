@@ -72,7 +72,7 @@ class MainPageLayout extends Component {
         const { menuList, Keys } = this.state;
         return (
             <Layout style={{ height: '100%' }}>
-                <Header style={{ padding: 0 ,height:'115px'}}>
+                <Header style={{ padding: 0 ,height:'65px'}}>
                     <div className={styles.main_page_top}>
                     </div>
                     <div className={styles.main_logo} >

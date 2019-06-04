@@ -7,6 +7,36 @@ import './index.less';
 const { SubMenu } = Menu;
 
 {/* <Link to={item.path}>{item.title}</Link> */ }
+//遍历菜单
+const GetListInfo = (listData) => {
+    if (listData.list === undefined) {
+        const data = {
+            type: listData.type,
+            id: listData.id,
+            picker: (listData.picker === undefined ? "" : listData.picker),
+            echarts: listData.echarts
+        };
+        const path = {
+            pathname: listData.path + "/" + listData.id,
+            query: { name: listData.title },
+            state: data,
+        }
+        return (
+            <Menu.Item key={listData.id}>
+                <Icon type="bar-chart" />
+                <span>{listData.title}</span>
+                <Link to={path}>
+                </Link>
+            </Menu.Item>
+        )
+    } else {
+        return (
+            <SubMenu key={"subtwo" + listData.id} title={<span><Icon type="appstore" /><span>{listData.title}</span></span>}>
+                {GetListInfo(listData.list)}
+            </SubMenu>
+        )
+    }
+}
 
 const MenuLeft = (props) => {
     return (
@@ -18,7 +48,8 @@ const MenuLeft = (props) => {
                         const data = { 
                             type: item.type, 
                             id: item.id,
-                            picker:(item.picker===undefined?"":item.picker)
+                            picker:(item.picker===undefined?"":item.picker),
+                            echarts: item.echarts
                         };
                         const path = {
                             pathname: item.path + "/" + item.id,
@@ -38,7 +69,12 @@ const MenuLeft = (props) => {
                             <SubMenu key={"sub" + item.id} title={<span><Icon type="appstore" /><span>{item.title}</span></span>}>
                                 {
                                     item.list.map((itemchild) => {
-                                        const data = { type: itemchild.type, id: itemchild.id,picker:(itemchild.picker===undefined?"":itemchild.picker)};
+                                        const data = { 
+                                            type: itemchild.type, 
+                                            id: itemchild.id,
+                                            picker: (itemchild.picker === undefined ? "" : itemchild.picker),
+                                            echarts: itemchild.echarts
+                                        };
                                         const path = {
                                             pathname: itemchild.path + "/" + itemchild.id ,
                                             query: { name: itemchild.title },
@@ -60,7 +96,12 @@ const MenuLeft = (props) => {
                                             <SubMenu key={"subtwo" + itemchild.id} title={<span><Icon type="appstore" /><span>{itemchild.title}</span></span>}>
                                             {   
                                                     itemchild.list.map((itemchildtwo) => {
-                                                        const data = { type: itemchildtwo.type, id: itemchildtwo.id,picker:(itemchildtwo.picker===undefined?"":itemchildtwo.picker) };
+                                                        const data = { 
+                                                            type: itemchildtwo.type, 
+                                                            id: itemchildtwo.id,
+                                                            picker: (itemchildtwo.picker === undefined ? "" : itemchildtwo.picker),
+                                                            echarts: itemchildtwo.echarts
+                                                         };
                                                         const path = {
                                                             pathname: itemchildtwo.path + "/" + itemchildtwo.id,
                                                             query: { name: itemchildtwo.title },

@@ -17,7 +17,7 @@ export function queryPost(url,params) {
     headers: {
       // "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
       // "Content-type": 'application/x-www-form-urlencoded'
-      // 'Content-Type': 'application/json;charset=utf-8',
+       'Content-Type': 'application/json;charset=utf-8',
     },
     mode: 'cors',
     //方式

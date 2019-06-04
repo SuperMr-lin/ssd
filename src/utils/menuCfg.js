@@ -19,7 +19,6 @@ import {
     HospIncomeUrl,
     HospIncomeTypeUrl,
     HospIncomeDepUrl,
-    HospIncomeDepProportionUrl,
     HospIncomeFinancialClassifyUrl,
     HospIncomeMonthUrl,
     HospIncomeSameRingRatioUrl,
@@ -54,20 +53,29 @@ import {
     SpecReduFeeWaiverUrl,
     SpecReduFeeWaiverTypeUrl,
     //4. 诊疗活动分析
-    TreatmentAnalysisPatUrl,
+    TreatmentAnalysisPatByAge,
+    TreatmentAnalysisPatByType0,
+    TreatmentAnalysisPatByType1,
+    TreatmentAnalysisPatByDep,
+    TreatmentAnalysisPatOutdep,
+    TreatmentAnalysisPatRatio,
     OutPatDepTendencyUrl,
     OutPatDepDepUrl,
     DocExPreByDocUrl,
     DocExPreByDiseaseUrl,
     WorkoadByDepUrl,
     WorkoadByDocUrl,
-    WorkoadByInspectUrl,
-    WorkoadByDocInspectUrl,
-    WorkoadByDepInspectUrl,
+    WorkoadByInspectUrl0,
+    WorkoadByInspectUrl1,
+    WorkoadByDocInspectUrl0,
+    WorkoadByDocInspectUrl1,
+    WorkoadByDepInspectUrl0,
+    WorkoadByDepInspectUrl1,
     WorkoadDepOperUrl,
     WorkoadOperUrl,
     TreatmentAnalysisInPatUrl,
     TreatmentAnalysisBedUrl,
+    TreatmentAnalysisOutPatRegistrationUrl,
     //5药品分析
     MedAnalysisMedConsumptionUrl,
     MedIncomeBySaleUrl,
@@ -75,17 +83,27 @@ import {
     MedIncomeByDocUrl,
     MedAnalysisPatUseMedUrl,
     MedAnalysisMedTotalCostUrl,
-    MedAnalysisMedProportionUrl,
+    MedAnalysisMedProportionUrl0,
+    MedAnalysisMedProportionUrl1,
+    MedAnalysisMedProportionUrl2,
     ControlledMedByTypeUrl,
     ControlledMedByDocUrl,
     AntibacterialMedHosStatisticalUrl,
-    AntibacterialMedAntiMedPercentUrl,
-    AntibacterialMedAntiMedUseTrendUrl,
-    AntibacterialMedAntiMedTotalFeeProportionUrl,
-    AntibacterialMedInPatUseAntiMedVarietyUrl,
-    AntibacterialMedInPatUseAntiMedFeeUrl,
-    AntibacterialMedInPatUseAntiMedProportionUrl,
-    AntibacterialMedAntiMedCheckProportionUrl,
+    AntibacterialMedAntiMedPercentUrl0,
+    AntibacterialMedAntiMedPercentUrl1,
+    AntibacterialMedAntiMedUseTrendUrl0,
+    AntibacterialMedAntiMedUseTrendUrl1,
+    AntibacterialMedAntiMedTotalFeeProportionUrl0,
+    AntibacterialMedAntiMedTotalFeeProportionUrl1,
+    AntibacterialMedAntiMedTotalFeeProportionUrl2,
+    AntibacterialMedInPatUseAntiMedVarietyUrl0,
+    AntibacterialMedInPatUseAntiMedVarietyUrl1,
+    AntibacterialMedInPatUseAntiMedFeeUrl0,
+    AntibacterialMedInPatUseAntiMedFeeUrl1,
+    AntibacterialMedInPatUseAntiMedProportionUrl0,
+    AntibacterialMedInPatUseAntiMedProportionUrl1,
+    AntibacterialMedAntiMedCheckProportionUrl0,
+    AntibacterialMedAntiMedCheckProportionUrl1,
     MedAnalysisMedStockTrendUrl,
     //6医疗质量分析
     MedicalCareAnalysisDiseasePatUrl,
@@ -99,13 +117,31 @@ import {
 } from '../services/UrlConfig';
 
 
-//  bar 单数据柱形图
-//  simple 多数据柱形图
+//  bar 柱形图
 // gauge 仪表图
-// cards 卡片表格
+// line  折线图 
+// pie  饼图
+// cards 卡片表格（院长日报页面专用）
 // table 表格 需要在 /utils/tableTitleCfg.js 文件配置表头
-// lineStack 多条折线图 
-// line  单条折线图 
+// picker: "MonthPicker", 只选择年份
+// picker: "MonthPicker", 只选择月份
+// picker 默认 年月日
+// 统计图 统一路径：/main/echarts
+/*
+            echarts: [
+                    一个统计图
+                    {
+                        **统计图名称
+                        name: "科室门诊量",
+                        **统计图类型
+                        type: "bar",
+                        **统计图请求地址
+                        url: DepUrl
+                    }
+                    ...多个统计图
+            ]
+
+*/
 
 
 export const MenuList = [
@@ -118,7 +154,7 @@ export const MenuList = [
                 id: '11',
                 title: "院长日报",
                 path: "/main/cards",
-                type: DeansDailyUrl
+                type: HospIncomeUrl
                 // id:'1.1',
                 // title:"院长日报"
             },
@@ -140,77 +176,143 @@ export const MenuList = [
             {
                 id: '21',
                 title: "科室门诊量",
-                path: "/main/bar",
-                type: DepUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "科室门诊量",
+                        type: "bar",
+                        url: DepUrl
+                    }
+                ]
             },
             {
                 id: '22',
                 title: "医生门诊量",
-                path: "/main/bar",
-                type: DocUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "医生门诊量",
+                        type: "bar",
+                        url: DocUrl
+                    }
+                ]
             }
             ,
             {
                 id: '23',
                 title: "门诊科室人均就诊费",
-                path: "/main/bar",
-                type: DepPerExpenseUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "门诊科室人均就诊费",
+                        type: "bar",
+                        url: DepPerExpenseUrl
+                    }
+                ]
             }
             ,
             {
                 id: '24',
                 title: "门诊各病种人均费用",
-                path: "/main/bar",
-                type: DepPerIllnessUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "门诊各病种人均费用",
+                        type: "bar",
+                        url: DepPerIllnessUrl
+                    }
+                ]
             }
             ,
             {
                 id: '25',
                 title: "全院科室收入",
-                path: "/main/bar",
-                type: DepIncomeDailyUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "全院科室收入",
+                        type: "bar",
+                        url: DepIncomeDailyUrl
+                    }
+                ]
             }
             ,
             {
                 id: '26',
                 title: "门诊医生收入",
-                path: "/main/bar",
-                type: DocIncomeDailyUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "门诊医生收入",
+                        type: "bar",
+                        url: DocIncomeDailyUrl
+                    }
+                ]
             }
             ,
             {
                 id: '27',
                 title: "医疗项目收入",
-                path: "/main/bar",
-                type: MedProjectIncomeDailyUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "医疗项目收入",
+                        type: "bar",
+                        url: MedProjectIncomeDailyUrl
+                    }
+                ]
             }
             ,
             {
                 id: '28',
                 title: "药品销售量",
-                path: "/main/bar",
-                type: MedNumDailyUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "药品销售量",
+                        type: "bar",
+                        url: MedNumDailyUrl
+                    }
+                ]
             }
             ,
             {
                 id: '29',
                 title: "药品销售金额",
-                path: "/main/bar",
-                type: MedIncomeDailyUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "药品销售金额",
+                        type: "bar",
+                        url: MedIncomeDailyUrl
+                    }
+                ]
             }
             ,
             {
                 id: '210',
                 title: "科室药费比",
-                path: "/main/simple",
-                type: DepMedDailyUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "科室药费比",
+                        type: "bar",
+                        url: DepMedDailyUrl
+                    }
+                ]
             }
             ,
             {
                 id: '211',
                 title: "医生药费比",
-                path: "/main/simple",
-                type: DocMedDailyUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "医生药费比",
+                        type: "bar",
+                        url: DocMedDailyUrl
+                    }
+                ]
             }
         ]
     },
@@ -226,48 +328,67 @@ export const MenuList = [
                         id: "311",
                         title: "全院收入按机构占比",
                         picker: "MonthPicker",
-                        path: "/main/pie",
-                        type: HospIncomeUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "全院收入按机构占比",
+                                type: "pie",
+                                url: HospIncomeUrl
+                            }
+                        ]
                     },
                     {
                         id: "312",
                         title: "全院收入按费用占比",
                         picker: "MonthPicker",
-                        path: "/main/pie",
-                        type: HospIncomeTypeUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "全院收入按费用占比",
+                                type: "pie",
+                                url: HospIncomeTypeUrl
+                            }
+                        ]
                     },
                     {
                         id: "313",
                         title: "全院科室收入",
-                        path: "/main/pie",
+                        picker: "MonthPicker",
+                        path: "/main/table",
                         type: HospIncomeDepUrl
-                    },
-                    {
-                        id: "314",
-                        title: "全院科室收入占比",
-                        path: "/main/pie",
-                        type: HospIncomeDepProportionUrl
                     },
                     {
                         id: "315",
                         title: "全院收入按财务分类",
                         picker: "MonthPicker",
-                        path: "/main/pie",
+                        path: "/main/table",
                         type: HospIncomeFinancialClassifyUrl
                     },
                     {
                         id: "316",
                         title: "全院收入月趋势",
-                        path: "/main/lineStack",
                         picker: "MonthPicker",
-                        type: HospIncomeMonthUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "全院收入月趋势",
+                                type: "line",
+                                url: HospIncomeMonthUrl
+                            }
+                        ]
                     },
                     {
                         id: "317",
                         title: "全院收入同环比报表",
                         picker: "MonthPicker",
-                        path: "/main/pie",
-                        type: HospIncomeSameRingRatioUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "全院收入同环比报表",
+                                type: "bar",
+                                url: HospIncomeSameRingRatioUrl
+                            }
+                        ]
                     }
                 ]
             },
@@ -279,50 +400,62 @@ export const MenuList = [
                         id: "321",
                         title: "门诊收入按费用类型构成比例图",
                         picker: "MonthPicker",
-                        path: "/main/pie",
-                        type: OutpDepIncomeTypeUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "门诊收入按费用类型构成比例图",
+                                type: "pie",
+                                url: OutpDepIncomeTypeUrl
+                            }
+                        ]
                     },
                     {
                         id: "322",
                         title: "门诊收入按分类构成比例图",
                         picker: "MonthPicker",
-                        path: "/main/pie",
+                        path: "/main/table",
                         type: OutpDepIncomeTypeProportionUrl
                     },
                     {
                         id: "323",
                         title: "门诊科室收入金额表",
                         picker: "MonthPicker",
-                        path: "/main/pie",
+                        path: "/main/table",
                         type: OutpDepIncomeDepUrl
-                    },
-                    {
-                        id: "324",
-                        title: "门诊科室收入比例图",
-                        picker: "MonthPicker",
-                        path: "/main/pie",
-                        type: OutpDepIncomeDepProportionUrl
                     },
                     {
                         id: "325",
                         title: "门诊收入按财务分类构成",
                         picker: "MonthPicker",
-                        path: "/main/pie",
+                        path: "/main/table",
                         type: OutpDepIncomeFinancialClassifyUrl
+                        
                     },
                     {
                         id: "326",
                         title: "门诊收入月趋势",
-                        path: "/main/lineStack",
                         picker: "MonthPicker",
-                        type: OutpDepIncomeMonthUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "门诊收入月趋势",
+                                type: "line",
+                                url: OutpDepIncomeMonthUrl
+                            }
+                        ]
                     },
                     {
                         id: "327",
                         title: "门诊收入同环比报表",
                         picker: "MonthPicker",
-                        path: "/main/bar",
-                        type: OutpDepIncomeSameRingRatioUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "门诊收入同环比报表",
+                                type: "bar",
+                                url: OutpDepIncomeSameRingRatioUrl
+                            }
+                        ]
                     }
                 ]
             },
@@ -333,51 +466,65 @@ export const MenuList = [
                     {
                         id: "331",
                         title: "住院收入按费用类型构成比例图",
-                        path: "/main/pie",
                         picker: "MonthPicker",
-                        type: InpaDepIncomeTypeUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "住院收入按费用类型构成比例图",
+                                type: "pie",
+                                url: InpaDepIncomeTypeUrl
+                            }
+                        ]
                     },
                     {
                         id: "332",
                         title: "住院收入按分类构成比例图",
-                        path: "/main/pie",
                         picker: "MonthPicker",
+                        path: "/main/table",
                         type: InpaDepIncomeTypeProportionUrl
                     },
                     {
                         id: "333",
                         title: "住院科室收入金额表",
-                        path: "/main/pie",
                         picker: "MonthPicker",
+                        path: "/main/table",
                         type: InpaDepIncomeDepUrl
-                    },
-                    {
-                        id: "334",
-                        title: "住院科室收入比例图",
-                        path: "/main/pie",
-                        picker: "MonthPicker",
-                        type: InpaDepIncomeDepProportionUrl
+                        
                     },
                     {
                         id: "335",
                         title: "住院收入按财务分类构成",
-                        path: "/main/pie",
                         picker: "MonthPicker",
+                        path: "/main/table",
                         type: InpaDepIncomeFinancialClassifyUrl
+                        
                     },
                     {
                         id: "336",
                         title: "住院收入月趋势",
                         picker: "MonthPicker",
-                        path: "/main/lineStack",
-                        type: InpaDepIncomeMonthUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "住院收入月趋势",
+                                type: "line",
+                                url: InpaDepIncomeMonthUrl
+                            }
+                        ]
                     },
                     {
                         id: "337",
                         title: "住院收入同环比报表",
-                        path: "/main/simple",
                         picker: "MonthPicker",
-                        type: InpaDepIncomeSameRingRatioUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "全院收入同环比报表",
+                                type: "bar",
+                                url: InpaDepIncomeSameRingRatioUrl
+                            }
+                        ]
+                        
                     }
                 ]
             },
@@ -388,18 +535,29 @@ export const MenuList = [
                     {
                         id: "341",
                         title: "出院病人费用（按科室）统计分析表",
+                        picker: "MonthPicker",
                         path: "/main/table",
                         type: DiscPatiCostStatisticsDepUrl
+
                     },
                     {
                         id: "342",
                         title: "出院病人费用（按疾病）统计分析表",
+                        picker: "MonthPicker",
                         path: "/main/table",
                         type: DiscPatiCostStatisticsDiseaseUrl
                     },
+                    // {
+                    //     id: "342",
+                    //     title: "出院病人费用（按疾病）统计分析表",
+                    //     picker: "MonthPicker",
+                    //     path: "/main/table",
+                    //     type: DiscPatiCostStatisticsDiseaseUrl
+                    // },
                     {
                         id: "343",
                         title: "出院病人费用（按病人类型）统计分析表",
+                        picker: "MonthPicker",
                         path: "/main/table",
                         type: DiscPatiCostStatisticsTypeUrl
                     }
@@ -412,18 +570,21 @@ export const MenuList = [
                     {
                         id: "351",
                         title: "在院病人费用（按科室）统计分析表",
+                        picker: "MonthPicker",
                         path: "/main/table",
                         type: PatiCostStatisticsDepUrl
                     },
                     {
                         id: "352",
                         title: "在院病人费用（按疾病）统计分析表",
+                        picker: "MonthPicker",
                         path: "/main/table",
                         type: PatiCostStatisticsDiseaseUrl
                     },
                     {
                         id: "353",
                         title: "在院病人费用（按病人类型）统计分析表",
+                        picker: "MonthPicker",
                         path: "/main/table",
                         type: PatiCostStatisticsTypeUrl
                     }
@@ -474,9 +635,40 @@ export const MenuList = [
             {
                 id: '41',
                 title: "患者来源分析",
-                path: "/main/source",
                 picker: "MonthPicker",
-                type: TreatmentAnalysisPatUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "按时间周期和病人年龄组分类的比例图",
+                        type: "pie",
+                        url: TreatmentAnalysisPatByAge
+                    },
+                    {
+                        name: "按时间周期和病人类型的比例图(住院)",
+                        type: "pie",
+                        url: TreatmentAnalysisPatByType1
+                    },
+                    {
+                        name: "按时间周期和病人类型的比例图(门诊)",
+                        type: "pie",
+                        url: TreatmentAnalysisPatByType0
+                    },
+                    {
+                        name: "按时间周期和病人就诊科室分类的比例图",
+                        type: "pie",
+                        url: TreatmentAnalysisPatByDep
+                    },
+                    {
+                        name: "按时间周期计算的门诊人次趋势图",
+                        type: "line",
+                        url: TreatmentAnalysisPatOutdep
+                    },
+                    {
+                        name: "按时间周期计算的同环比列表",
+                        type: "bar",
+                        url: TreatmentAnalysisPatRatio
+                    },
+                ]
             },
             {
                 id: '42',
@@ -485,15 +677,27 @@ export const MenuList = [
                     {
                         id: "421",
                         title: "门诊量趋势图",
-                        path: "/main/lineStack",
-                        picker: "MonthPicker",
-                        type: OutPatDepTendencyUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "门诊量趋势图",
+                                type: "line",
+                                url: OutPatDepTendencyUrl
+                            }
+                        ]
+
                     },
                     {
                         id: "423",
                         title: "门诊专业就诊数量",
-                        path: "/main/bar",
-                        type: OutPatDepDepUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "门诊专业就诊数量",
+                                type: "bar",
+                                url: OutPatDepDepUrl
+                            }
+                        ]
                     }
                 ]
             },
@@ -504,13 +708,13 @@ export const MenuList = [
                     {
                         id: "431",
                         title: "各门诊科室医生大处方统计表",
-                        path: "/main/bar",
+                        path: "/main/table",
                         type: DocExPreByDocUrl
                     },
                     {
                         id: "432",
                         title: "门诊各病种(按医生)大处方统计表",
-                        path: "/main/bar",
+                        path: "/main/table",
                         type: DocExPreByDiseaseUrl
                     }
                 ]
@@ -522,110 +726,149 @@ export const MenuList = [
                     {
                         id: "441",
                         title: "按科室工作量统计",
-                        path: "/main/bar",
-                        type: WorkoadByDepUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "按科室工作量统计",
+                                type: "bar",
+                                url: WorkoadByDepUrl
+                            }
+                        ]
                     },
                     {
                         id: "442",
                         title: "按人员工作量统计",
-                        path: "/main/bar",
-                        type: WorkoadByDocUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "按人员工作量统计",
+                                type: "bar",
+                                url: WorkoadByDocUrl
+                            }
+                        ]
                     },
                     {
                         id: "443",
                         title: "按检验项目标本份数统计",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: WorkoadByInspectUrl
-                    },
-                    {
-                        id: "444",
-                        title: "按检验项目检验费用统计",
-                        path: "/main/bar",
-                        picker: "MonthPicker",
-                        type: WorkoadByInspectUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "按检验项目标本份数统计",
+                                type: "bar",
+                                url: WorkoadByInspectUrl0
+                            }
+                        ]
                     },
                     {
                         id: "445",
                         title: "按检查项目标本份数统计",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: WorkoadByInspectUrl
-                    },
-                    {
-                        id: "446",
-                        title: "按检查项目检验费用统计",
-                        path: "/main/bar",
-                        picker: "MonthPicker",
-                        type: WorkoadByInspectUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "按检查项目标本份数统计",
+                                type: "bar",
+                                url: WorkoadByInspectUrl1
+                            }
+                        ]
                     },
                     {
                         id: "447",
                         title: "医生开具检验项目统计",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: WorkoadByDocInspectUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "医生开具检验项目统计",
+                                type: "bar",
+                                url: WorkoadByDocInspectUrl0
+                            }
+                        ]
                     },
                     {
                         id: "448",
                         title: "医生开具检查项目统计",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: WorkoadByDocInspectUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "医生开具检查项目统计",
+                                type: "bar",
+                                url: WorkoadByDocInspectUrl1
+                            }
+                        ]
                     },
                     {
                         id: "449",
                         title: "科室开具检验项目统计",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: WorkoadByDepInspectUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "科室开具检验项目统计",
+                                type: "bar",
+                                url: WorkoadByDepInspectUrl0
+                            }
+                        ]
                     },
                     {
                         id: "4410",
                         title: "科室开具检查项目统计",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: WorkoadByDepInspectUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "科室开具检查项目统计",
+                                type: "bar",
+                                url: WorkoadByDepInspectUrl1
+                            }
+                        ]
                     },
                     {
                         id: "4411",
                         title: "科室手术工作量统计",
-                        path: "/main/bar",
-                        picker: "MonthPicker",
-                        type: WorkoadDepOperUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "科室手术工作量统计",
+                                type: "bar",
+                                url: WorkoadDepOperUrl
+                            }
+                        ]
                     },
                     {
                         id: "4412",
                         title: "手术项目工作量统计",
-                        path: "/main/bar",
-                        picker: "MonthPicker",
-                        type: WorkoadOperUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "手术项目工作量统计",
+                                type: "bar",
+                                url: WorkoadOperUrl
+                            }
+                        ]
                     }
                 ]
             },
             {
                 id: '45',
                 title: "在院病人分布状况",
-                list: [
-                    {
-                        id: "451",
-                        title: "在院病人按科室分布统计",
-                        path: "/main/pie",
-                        type: TreatmentAnalysisInPatUrl
-                    },
-                    {
-                        id: "452",
-                        title: "在院病人按医生分布统计",
-                        path: "/main/pie",
-                        type: TreatmentAnalysisInPatUrl
-                    }
-                ]
+                path: "/main/table",
+                type: TreatmentAnalysisInPatUrl
             },
             {
                 id: '46',
                 title: "床位使用状况分析",
-                path: "/main/pie",
+                path: "/main/table",
                 type: TreatmentAnalysisBedUrl
+            }
+            ,
+            {
+                id: '47',
+                title: "门诊挂号类别统计",
+                path: "/main/table",
+                type: TreatmentAnalysisOutPatRegistrationUrl
             }
 
         ]
@@ -638,8 +881,14 @@ export const MenuList = [
             {
                 id: '51',
                 title: "药品消耗量排名",
-                path: "/main/bar",
-                type: MedAnalysisMedConsumptionUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "药品消耗量排名",
+                        type: "bar",
+                        url: MedAnalysisMedConsumptionUrl
+                    }
+                ]
             },
             {
                 id: '52',
@@ -648,23 +897,41 @@ export const MenuList = [
                     {
                         id: "521",
                         title: "药品销量金额排名",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: MedIncomeBySaleUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "药品销量金额排名",
+                                type: "bar",
+                                url: MedIncomeBySaleUrl
+                            }
+                        ]
                     },
                     {
                         id: "522",
                         title: "科室用药金额排名",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: MedIncomeByDepUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "科室用药金额排名",
+                                type: "bar",
+                                url: MedIncomeByDepUrl
+                            }
+                        ]
                     },
                     {
                         id: "523",
                         title: "医生开药金额排名",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: MedIncomeByDocUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "医生开药金额排名",
+                                type: "bar",
+                                url: MedIncomeByDocUrl
+                            }
+                        ]
                     }
                 ]
             },
@@ -689,16 +956,28 @@ export const MenuList = [
             {
                 id: '54',
                 title: "病人用药类型分析",
-                path: "/main/bar",
                 picker: "MonthPicker",
-                type: MedAnalysisPatUseMedUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "病人用药类型分析",
+                        type: "bar",
+                        url: MedAnalysisPatUseMedUrl
+                    }
+                ]
             },
             {
                 id: '55',
                 title: "药费总额构成分析",
-                path: "/main/bar",
                 picker: "MonthPicker",
-                type: MedAnalysisMedTotalCostUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "药费总额构成分析",
+                        type: "bar",
+                        url: MedAnalysisMedTotalCostUrl
+                    }
+                ]
             },
             {
                 id: '56',
@@ -707,23 +986,41 @@ export const MenuList = [
                     {
                         id: "561",
                         title: "各医生药品收入占医疗收入比重分析",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: MedAnalysisMedProportionUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "各医生药品收入占医疗收入比重分析",
+                                type: "bar",
+                                url: MedAnalysisMedProportionUrl0
+                            }
+                        ]
                     },
                     {
                         id: "562",
                         title: "各科室药品收入占医疗收入比重分析",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: MedAnalysisMedProportionUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "各科室药品收入占医疗收入比重分析",
+                                type: "bar",
+                                url: MedAnalysisMedProportionUrl1
+                            }
+                        ]
                     },
                     {
                         id: "563",
                         title: "各病种药品收入占医疗收入比重分析",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: MedAnalysisMedProportionUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "各病种药品收入占医疗收入比重分析",
+                                type: "bar",
+                                url: MedAnalysisMedProportionUrl2
+                            }
+                        ]
                     }
                 ]
             },
@@ -734,16 +1031,28 @@ export const MenuList = [
                     {
                         id: "571",
                         title: "按特殊药品类型占比分析",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: ControlledMedByTypeUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "按特殊药品类型占比分析",
+                                type: "bar",
+                                url: ControlledMedByTypeUrl
+                            }
+                        ]
                     },
                     {
                         id: "572",
                         title: "各医生各类特殊药品开药金额排名",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: ControlledMedByDocUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "各医生各类特殊药品开药金额排名",
+                                type: "bar",
+                                url: ControlledMedByDocUrl
+                            }
+                        ]
                     }
                 ]
             },
@@ -754,124 +1063,181 @@ export const MenuList = [
                     {
                         id: "581",
                         title: "全院抗菌药品统计指标监控表",
-                        path: "/main/pie",
                         picker: "MonthPicker",
-                        type: AntibacterialMedHosStatisticalUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "全院抗菌药品统计指标监控表",
+                                type: "pie",
+                                url: AntibacterialMedHosStatisticalUrl
+                            }
+                        ]
                     },
                     {
                         id: "582",
                         title: "各病种就诊使用抗菌药物占比",
-                        path: "/main/pie",
                         picker: "MonthPicker",
-                        type: AntibacterialMedAntiMedPercentUrl
+                        path: "/main/table",
+                        type: AntibacterialMedAntiMedPercentUrl0
+                        
                     },
                     {
                         id: "583",
                         title: "各医生就诊使用抗菌药物占比",
-                        path: "/main/pie",
                         picker: "MonthPicker",
-                        type: AntibacterialMedAntiMedPercentUrl
+                        path: "/main/table",
+                        type: AntibacterialMedAntiMedPercentUrl1
+                        
                     },
                     {
                         id: "584",
                         title: "抗菌药物使用强度趋势图",
-                        path: "/main/lineStack",
                         picker: "MonthPicker",
-                        type: AntibacterialMedAntiMedUseTrendUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "抗菌药物使用强度趋势图",
+                                type: "line",
+                                url: AntibacterialMedAntiMedUseTrendUrl0
+                            }
+                        ]
                     },
                     {
                         id: "585",
                         title: "各病种抗菌药物使用强度对比",
-                        path: "/main/pie",
                         picker: "MonthPicker",
-                        type: AntibacterialMedAntiMedUseTrendUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "各病种抗菌药物使用强度对比",
+                                type: "line",
+                                url: AntibacterialMedAntiMedUseTrendUrl1
+                            }
+                        ]
                     },
                     {
                         id: "586",
                         title: "抗菌药物占药费总额百分率",
-                        path: "/main/pie",
                         picker: "MonthPicker",
-                        type: AntibacterialMedAntiMedTotalFeeProportionUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "抗菌药物占药费总额百分率",
+                                type: "pie",
+                                url: AntibacterialMedAntiMedTotalFeeProportionUrl0
+                            }
+                        ]
                     },
                     {
                         id: "587",
                         title: "各病种抗菌药物占药费总额百分比",
-                        path: "/main/pie",
                         picker: "MonthPicker",
-                        type: AntibacterialMedAntiMedTotalFeeProportionUrl
+                        path: "/main/table",
+                        type: AntibacterialMedAntiMedTotalFeeProportionUrl1
                     },
                     {
                         id: "588",
                         title: "各科室抗菌药物占药费总额百分比",
-                        path: "/main/pie",
                         picker: "MonthPicker",
-                        type: AntibacterialMedAntiMedTotalFeeProportionUrl
+                        path: "/main/table",
+                        type: AntibacterialMedAntiMedTotalFeeProportionUrl2
+                        
                     },
                     {
                         id: "589",
                         title: "各医生住院患者人均使用抗菌药物品种数",
-                        path: "/main/pie",
                         picker: "MonthPicker",
-                        type: AntibacterialMedInPatUseAntiMedVarietyUrl
+                        path: "/main/table",
+                        type: AntibacterialMedInPatUseAntiMedVarietyUrl0
                     },
                     {
                         id: "5810",
                         title: "各病种住院患者人均使用抗菌药物品种数",
-                        path: "/main/pie",
                         picker: "MonthPicker",
-                        type: AntibacterialMedInPatUseAntiMedVarietyUrl
+                        path: "/main/table",
+                        type: AntibacterialMedInPatUseAntiMedVarietyUrl1
                     },
                     {
                         id: "5811",
                         title: "住院患者人均使用抗菌药物费用趋势",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: AntibacterialMedInPatUseAntiMedFeeUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "住院患者人均使用抗菌药物费用趋势",
+                                type: "bar",
+                                url: AntibacterialMedInPatUseAntiMedFeeUrl0
+                            }
+                        ]
                     },
                     {
                         id: "5812",
                         title: "各病种住院患者人均使用抗菌药物费用",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: AntibacterialMedInPatUseAntiMedFeeUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "住院患者人均使用抗菌药物费用趋势",
+                                type: "bar",
+                                url: AntibacterialMedInPatUseAntiMedFeeUrl1
+                            }
+                        ]
                     },
                     {
                         id: "5813",
                         title: "各医生各类特殊药品开药金额排名",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: AntibacterialMedInPatUseAntiMedProportionUrl
+                        path: "/main/table",
+                        type: AntibacterialMedInPatUseAntiMedProportionUrl0
                     },
                     {
                         id: "5814",
                         title: "各科室住院患者使用抗菌药物比例对比",
-                        path: "/main/bar",
                         picker: "MonthPicker",
-                        type: AntibacterialMedInPatUseAntiMedProportionUrl
+                        path: "/main/table",
+                        type: AntibacterialMedInPatUseAntiMedProportionUrl1
                     },
                     {
                         id: "5815",
                         title: "住院用抗菌药物患者病原学检查比率趋势",
-                        path: "/main/lineStack",
                         picker: "MonthPicker",
-                        type: AntibacterialMedAntiMedCheckProportionUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "住院用抗菌药物患者病原学检查比率趋势",
+                                type: "pie",
+                                url: AntibacterialMedAntiMedCheckProportionUrl0
+                            }
+                        ]
                     },
                     {
                         id: "5816",
                         title: "各病种抗菌药物患者病原学检查比率趋势",
-                        path: "/main/simple",
                         picker: "MonthPicker",
-                        type: AntibacterialMedAntiMedCheckProportionUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "各病种抗菌药物患者病原学检查比率趋势",
+                                type: "line",
+                                url: AntibacterialMedAntiMedCheckProportionUrl1
+                            }
+                        ]
                     }
                 ]
             },
-            // {
-            //     id: '59',
-            //     title: "药品库存趋势分析",
-            //     path: "/main/lineStack",
-            //     type: MedAnalysisMedStockTrendUrl
+            {
+                id: '59',
+                title: "药品库存趋势分析",
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "药品库存趋势分析",
+                        type: "line",
+                        url: MedAnalysisMedStockTrendUrl
+                    }
+                ]
              
-            // },
+            },
             // {
             //     id: '510',
             //     title: "药品使用模式分析",
@@ -910,16 +1276,28 @@ export const MenuList = [
             {
                 id: '62',
                 title: "单病种分析",
-                path: "/main/pie",
                 picker: "MonthPicker",
-                type: MedicalCareAnalysisDiseaseAnalysisUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "单病种分析",
+                        type: "pie",
+                        url: MedicalCareAnalysisDiseaseAnalysisUrl
+                    }
+                ]
             },
             {
                 id: '63',
                 title: "就诊时间分析",
-                path: "/main/pie",
                 picker: "MonthPicker",
-                type: MedicalCareAnalysisVisitTimeUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "就诊时间分析",
+                        type: "pie",
+                        url: MedicalCareAnalysisVisitTimeUrl
+                    }
+                ]
             },
             {
                 id: '64',
@@ -928,16 +1306,28 @@ export const MenuList = [
                     {
                         id: "641",
                         title: "全院诊断符合率趋势分析",
-                        path: "/main/pie",
                         picker: "MonthPicker",
-                        type: CoincidenceByHosUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "全院诊断符合率趋势分析",
+                                type: "line",
+                                url: CoincidenceByHosUrl
+                            }
+                        ]
                     },
                     {
                         id: "642",
                         title: "各医生诊断符合率分析",
-                        path: "/main/pie",
                         picker: "MonthPicker",
-                        type: CoincidenceByDocUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "各医生诊断符合率分析",
+                                type: "pie",
+                                url: CoincidenceByDocUrl
+                            }
+                        ]
                     }
                     
                 ]
@@ -945,9 +1335,15 @@ export const MenuList = [
             {
                 id: '65',
                 title: "病人满意度分析",
-                path: "/main/pie",
                 picker: "MonthPicker",
-                type: MedicalCareAnalysisPatSatisfactionUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "病人满意度分析",
+                        type: "pie",
+                        url: MedicalCareAnalysisPatSatisfactionUrl
+                    }
+                ]
             },
             {
                 id: '66',
@@ -956,16 +1352,28 @@ export const MenuList = [
                     {
                         id: "661",
                         title: "全院治愈好转率趋势分析",
-                        path: "/main/pie",
                         picker: "MonthPicker",
-                        type: CureRateByHospitalUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "全院治愈好转率趋势分析",
+                                type: "pie",
+                                url: CureRateByHospitalUrl
+                            }
+                        ]
                     },
                     {
                         id: "662",
                         title: "各病种治愈好转率分析",
-                        path: "/main/pie",
                         picker: "MonthPicker",
-                        type: CureRateByDiseaseUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "各病种治愈好转率分析",
+                                type: "pie",
+                                url: CureRateByDiseaseUrl
+                            }
+                        ]
                     },
                 ]
             }
