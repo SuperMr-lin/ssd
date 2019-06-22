@@ -43,7 +43,7 @@ class MainReport extends Component {
             } else {
                 dateFormat = 'YYYY-MM-DD';
             }
-            currentdate = moment().format(dateFormat);
+            currentdate = moment().day(0).format(dateFormat);
         }
         const echartsUrl = this.props.location.state.type;
         const payload = {
@@ -54,7 +54,6 @@ class MainReport extends Component {
             type: 'echarts/fetchEcharts',
             payload: { payload }
         }).then((res) => {
-            console.log(res)
             if(res.code===1){
                 let { mzdysrzb, mznsrzb, qydysrzb, qynsrzb, zydysrzb, zynsrzb } = res.echartsData[0];
                 mzdysrzb = mzdysrzb.replace("%", "")

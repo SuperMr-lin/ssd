@@ -91,11 +91,11 @@ import {
     AntibacterialMedHosStatisticalUrl,
     AntibacterialMedAntiMedPercentUrl0,
     AntibacterialMedAntiMedPercentUrl1,
-    AntibacterialMedAntiMedUseTrendUrl0,
-    AntibacterialMedAntiMedUseTrendUrl1,
-    AntibacterialMedAntiMedTotalFeeProportionUrl0,
-    AntibacterialMedAntiMedTotalFeeProportionUrl1,
-    AntibacterialMedAntiMedTotalFeeProportionUrl2,
+    AntibacterialMedAntiMedAntiMedUseTrendByMonth,
+    AntibacterialMedAntiMedAntiMedUseTrendByJbmc,
+    AntibacterialMedAntiMedTotalFeeProportionUrl,
+    AntibacterialMedAntiMedAntiMedTotalFeeProportionByDepDisease1,
+    AntibacterialMedAntiMedAntiMedTotalFeeProportionByDepDisease2,
     AntibacterialMedInPatUseAntiMedVarietyUrl0,
     AntibacterialMedInPatUseAntiMedVarietyUrl1,
     AntibacterialMedInPatUseAntiMedFeeUrl0,
@@ -161,9 +161,8 @@ export const MenuList = [
             {
                 id: '12',
                 title: "KPI指标",
-                path: "/main/gauge",
-                picker:"MonthPicker",
-                type: KPIAnalysisUrl
+                picker: "MonthPicker",
+                path: "/main/echarts", echarts: [{ name: "KPI指标", type: "table", url: KPIAnalysisUrl }]
                 // id: '1.2',
                 // title: "KPI指标"
             }
@@ -179,7 +178,7 @@ export const MenuList = [
                 path: "/main/echarts",
                 echarts: [
                     {
-                        name: "科室门诊量",
+                        name: "科室门诊量-前五排名",
                         type: "bar",
                         url: DepUrl
                     }
@@ -191,7 +190,7 @@ export const MenuList = [
                 path: "/main/echarts",
                 echarts: [
                     {
-                        name: "医生门诊量",
+                        name: "医生门诊量-前五排名",
                         type: "bar",
                         url: DocUrl
                     }
@@ -204,7 +203,7 @@ export const MenuList = [
                 path: "/main/echarts",
                 echarts: [
                     {
-                        name: "门诊科室人均就诊费",
+                        name: "门诊科室人均就诊费-前五排名",
                         type: "bar",
                         url: DepPerExpenseUrl
                     }
@@ -217,7 +216,7 @@ export const MenuList = [
                 path: "/main/echarts",
                 echarts: [
                     {
-                        name: "门诊各病种人均费用",
+                        name: "门诊各病种人均费用-前五排名",
                         type: "bar",
                         url: DepPerIllnessUrl
                     }
@@ -230,7 +229,7 @@ export const MenuList = [
                 path: "/main/echarts",
                 echarts: [
                     {
-                        name: "全院科室收入",
+                        name: "全院科室收入-前五排名",
                         type: "bar",
                         url: DepIncomeDailyUrl
                     }
@@ -243,7 +242,7 @@ export const MenuList = [
                 path: "/main/echarts",
                 echarts: [
                     {
-                        name: "门诊医生收入",
+                        name: "门诊医生收入-前五排名",
                         type: "bar",
                         url: DocIncomeDailyUrl
                     }
@@ -256,7 +255,7 @@ export const MenuList = [
                 path: "/main/echarts",
                 echarts: [
                     {
-                        name: "医疗项目收入",
+                        name: "医疗项目收入-前五排名",
                         type: "bar",
                         url: MedProjectIncomeDailyUrl
                     }
@@ -269,7 +268,7 @@ export const MenuList = [
                 path: "/main/echarts",
                 echarts: [
                     {
-                        name: "药品销售量",
+                        name: "药品销售量-前五排名",
                         type: "bar",
                         url: MedNumDailyUrl
                     }
@@ -282,7 +281,7 @@ export const MenuList = [
                 path: "/main/echarts",
                 echarts: [
                     {
-                        name: "药品销售金额",
+                        name: "药品销售金额-前五排名",
                         type: "bar",
                         url: MedIncomeDailyUrl
                     }
@@ -295,7 +294,7 @@ export const MenuList = [
                 path: "/main/echarts",
                 echarts: [
                     {
-                        name: "科室药费比",
+                        name: "科室药费比-前五排名",
                         type: "bar",
                         url: DepMedDailyUrl
                     }
@@ -308,7 +307,7 @@ export const MenuList = [
                 path: "/main/echarts",
                 echarts: [
                     {
-                        name: "医生药费比",
+                        name: "医生药费比-前五排名",
                         type: "bar",
                         url: DocMedDailyUrl
                     }
@@ -354,15 +353,13 @@ export const MenuList = [
                         id: "313",
                         title: "全院科室收入",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: HospIncomeDepUrl
+                        path: "/main/echarts", echarts: [{ name: "全院科室收入", type: "table", url: HospIncomeDepUrl }]
                     },
                     {
                         id: "315",
                         title: "全院收入按财务分类",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: HospIncomeFinancialClassifyUrl
+                        path: "/main/echarts", echarts: [{ name: "全院收入按财务分类", type: "table", url: HospIncomeFinancialClassifyUrl }]
                     },
                     {
                         id: "316",
@@ -413,23 +410,20 @@ export const MenuList = [
                         id: "322",
                         title: "门诊收入按分类构成比例图",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: OutpDepIncomeTypeProportionUrl
+                        path: "/main/echarts", echarts: [{ name: "门诊收入按分类构成比例图", type: "table", url: OutpDepIncomeTypeProportionUrl }]
                     },
                     {
                         id: "323",
                         title: "门诊科室收入金额表",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: OutpDepIncomeDepUrl
+                        path: "/main/echarts", echarts: [{ name: "门诊科室收入金额表", type: "table", url: OutpDepIncomeDepUrl }]
                     },
                     {
                         id: "325",
                         title: "门诊收入按财务分类构成",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: OutpDepIncomeFinancialClassifyUrl
-                        
+                        path: "/main/echarts", echarts: [{ name: "门诊收入按财务分类构成", type: "table", url: OutpDepIncomeFinancialClassifyUrl }]
+
                     },
                     {
                         id: "326",
@@ -480,24 +474,21 @@ export const MenuList = [
                         id: "332",
                         title: "住院收入按分类构成比例图",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: InpaDepIncomeTypeProportionUrl
+                        path: "/main/echarts", echarts: [{ name: "住院收入按分类构成比例图", type: "table", url: InpaDepIncomeTypeProportionUrl }]
                     },
                     {
                         id: "333",
                         title: "住院科室收入金额表",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: InpaDepIncomeDepUrl
-                        
+                        path: "/main/echarts", echarts: [{ name: "住院科室收入金额表", type: "table", url: InpaDepIncomeDepUrl }]
+
                     },
                     {
                         id: "335",
                         title: "住院收入按财务分类构成",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: InpaDepIncomeFinancialClassifyUrl
-                        
+                        path: "/main/echarts", echarts: [{ name: "住院收入按财务分类构成", type: "table", url: InpaDepIncomeFinancialClassifyUrl }]
+
                     },
                     {
                         id: "336",
@@ -519,12 +510,12 @@ export const MenuList = [
                         path: "/main/echarts",
                         echarts: [
                             {
-                                name: "全院收入同环比报表",
+                                name: "住院收入同环比报表",
                                 type: "bar",
                                 url: InpaDepIncomeSameRingRatioUrl
                             }
                         ]
-                        
+
                     }
                 ]
             },
@@ -536,30 +527,48 @@ export const MenuList = [
                         id: "341",
                         title: "出院病人费用（按科室）统计分析表",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: DiscPatiCostStatisticsDepUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "出院病人费用（按科室）统计分析表",
+                                type: "table",
+                                url: DiscPatiCostStatisticsDepUrl
+                            }
+                        ]
 
                     },
                     {
                         id: "342",
                         title: "出院病人费用（按疾病）统计分析表",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: DiscPatiCostStatisticsDiseaseUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "出院病人费用（按疾病）统计分析表",
+                                type: "table",
+                                url: DiscPatiCostStatisticsDiseaseUrl
+                            }
+                        ]
                     },
                     // {
                     //     id: "342",
                     //     title: "出院病人费用（按疾病）统计分析表",
                     //     picker: "MonthPicker",
-                    //     path: "/main/table",
+                    //     path: "/main/echarts",                         echarts: [                             {                                 name: "全院收入同环比报表",                                 type: "table",                                 url: DiscPatiCostStatisticsTypeUrl                             }                         ]
                     //     type: DiscPatiCostStatisticsDiseaseUrl
                     // },
                     {
                         id: "343",
                         title: "出院病人费用（按病人类型）统计分析表",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: DiscPatiCostStatisticsTypeUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "出院病人费用（按病人类型）统计分析表",
+                                type: "table",
+                                url: DiscPatiCostStatisticsTypeUrl
+                            }
+                        ]
                     }
                 ]
             },
@@ -571,22 +580,26 @@ export const MenuList = [
                         id: "351",
                         title: "在院病人费用（按科室）统计分析表",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: PatiCostStatisticsDepUrl
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "在院病人费用（按科室）统计分析表",
+                                type: "table",
+                                url: PatiCostStatisticsDepUrl
+                            }
+                        ]
                     },
                     {
                         id: "352",
                         title: "在院病人费用（按疾病）统计分析表",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: PatiCostStatisticsDiseaseUrl
+                        path: "/main/echarts", echarts: [{ name: "在院病人费用（按疾病）统计分析表", type: "table", url: PatiCostStatisticsDiseaseUrl }]
                     },
                     {
                         id: "353",
                         title: "在院病人费用（按病人类型）统计分析表",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: PatiCostStatisticsTypeUrl
+                        path: "/main/echarts", echarts: [{ name: "在院病人费用（按病人类型）统计分析表", type: "table", url: PatiCostStatisticsTypeUrl }]
                     }
                 ]
             },
@@ -597,14 +610,12 @@ export const MenuList = [
                     {
                         id: "361",
                         title: "出院未结病人（按科室）费用统计",
-                        path: "/main/table",
-                        type: DiscPatiNoPayCostStatisticsDepUrl
+                        path: "/main/echarts", echarts: [{ name: "出院未结病人（按科室）费用统计", type: "table", url: DiscPatiNoPayCostStatisticsDepUrl }]
                     },
                     {
                         id: "362",
                         title: "出院未结病人费用明细表",
-                        path: "/main/table",
-                        type: DiscPatiNoPayCostStatisticsDetailUrl
+                        path: "/main/echarts", echarts: [{ name: "出院未结病人费用明细表", type: "table", url: DiscPatiNoPayCostStatisticsDetailUrl }]
                     }
                 ]
             },
@@ -615,14 +626,12 @@ export const MenuList = [
                     {
                         id: "371",
                         title: "特殊群体费用减免统计",
-                        path: "/main/table",
-                        type: SpecReduFeeWaiverUrl
+                        path: "/main/echarts", echarts: [{ name: "特殊群体费用减免统计", type: "table", url: SpecReduFeeWaiverUrl }]
                     },
                     {
                         id: "372",
                         title: "特殊群体各类费用减免统计",
-                        path: "/main/table",
-                        type: SpecReduFeeWaiverTypeUrl
+                        path: "/main/echarts", echarts: [{ name: "特殊群体各类费用减免统计", type: "table", url: SpecReduFeeWaiverTypeUrl }]
                     }
                 ]
             }
@@ -655,7 +664,7 @@ export const MenuList = [
                     },
                     {
                         name: "按时间周期和病人就诊科室分类的比例图",
-                        type: "pie",
+                        type: "table",
                         url: TreatmentAnalysisPatByDep
                     },
                     {
@@ -708,14 +717,12 @@ export const MenuList = [
                     {
                         id: "431",
                         title: "各门诊科室医生大处方统计表",
-                        path: "/main/table",
-                        type: DocExPreByDocUrl
+                        path: "/main/echarts", echarts: [{ name: "各门诊科室医生大处方统计表", type: "table", url: DocExPreByDocUrl }]
                     },
                     {
                         id: "432",
                         title: "门诊各病种(按医生)大处方统计表",
-                        path: "/main/table",
-                        type: DocExPreByDiseaseUrl
+                        path: "/main/echarts", echarts: [{ name: "门诊各病种(按医生)大处方统计表", type: "table", url: DocExPreByDiseaseUrl }]
                     }
                 ]
             },
@@ -854,21 +861,19 @@ export const MenuList = [
             {
                 id: '45',
                 title: "在院病人分布状况",
-                path: "/main/table",
-                type: TreatmentAnalysisInPatUrl
+                path: "/main/echarts", echarts: [{ name: "在院病人分布状况", type: "table", url: TreatmentAnalysisInPatUrl }]
             },
             {
                 id: '46',
                 title: "床位使用状况分析",
-                path: "/main/table",
-                type: TreatmentAnalysisBedUrl
+                picker: "MonthPicker",
+                path: "/main/echarts", echarts: [{ name: "床位使用状况分析", type: "table", url: TreatmentAnalysisBedUrl }]
             }
             ,
             {
                 id: '47',
                 title: "门诊挂号类别统计",
-                path: "/main/table",
-                type: TreatmentAnalysisOutPatRegistrationUrl
+                path: "/main/echarts", echarts: [{ name: "门诊挂号类别统计", type: "table", url: TreatmentAnalysisOutPatRegistrationUrl }]
             }
 
         ]
@@ -885,7 +890,7 @@ export const MenuList = [
                 echarts: [
                     {
                         name: "药品消耗量排名",
-                        type: "bar",
+                        type: "table",
                         url: MedAnalysisMedConsumptionUrl
                     }
                 ]
@@ -991,7 +996,7 @@ export const MenuList = [
                         echarts: [
                             {
                                 name: "各医生药品收入占医疗收入比重分析",
-                                type: "bar",
+                                type: "table",
                                 url: MedAnalysisMedProportionUrl0
                             }
                         ]
@@ -1004,7 +1009,7 @@ export const MenuList = [
                         echarts: [
                             {
                                 name: "各科室药品收入占医疗收入比重分析",
-                                type: "bar",
+                                type: "table",
                                 url: MedAnalysisMedProportionUrl1
                             }
                         ]
@@ -1017,7 +1022,7 @@ export const MenuList = [
                         echarts: [
                             {
                                 name: "各病种药品收入占医疗收入比重分析",
-                                type: "bar",
+                                type: "table",
                                 url: MedAnalysisMedProportionUrl2
                             }
                         ]
@@ -1049,7 +1054,7 @@ export const MenuList = [
                         echarts: [
                             {
                                 name: "各医生各类特殊药品开药金额排名",
-                                type: "bar",
+                                type: "table",
                                 url: ControlledMedByDocUrl
                             }
                         ]
@@ -1068,7 +1073,7 @@ export const MenuList = [
                         echarts: [
                             {
                                 name: "全院抗菌药品统计指标监控表",
-                                type: "pie",
+                                type: "table",
                                 url: AntibacterialMedHosStatisticalUrl
                             }
                         ]
@@ -1077,17 +1082,15 @@ export const MenuList = [
                         id: "582",
                         title: "各病种就诊使用抗菌药物占比",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: AntibacterialMedAntiMedPercentUrl0
-                        
+                        path: "/main/echarts", echarts: [{ name: "各病种就诊使用抗菌药物占比", type: "table", url: AntibacterialMedAntiMedPercentUrl0 }]
+
                     },
                     {
                         id: "583",
                         title: "各医生就诊使用抗菌药物占比",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: AntibacterialMedAntiMedPercentUrl1
-                        
+                        path: "/main/echarts", echarts: [{ name: "各医生就诊使用抗菌药物占比", type: "table", url: AntibacterialMedAntiMedPercentUrl1 }]
+
                     },
                     {
                         id: "584",
@@ -1098,7 +1101,7 @@ export const MenuList = [
                             {
                                 name: "抗菌药物使用强度趋势图",
                                 type: "line",
-                                url: AntibacterialMedAntiMedUseTrendUrl0
+                                url: AntibacterialMedAntiMedAntiMedUseTrendByMonth
                             }
                         ]
                     },
@@ -1110,8 +1113,8 @@ export const MenuList = [
                         echarts: [
                             {
                                 name: "各病种抗菌药物使用强度对比",
-                                type: "line",
-                                url: AntibacterialMedAntiMedUseTrendUrl1
+                                type: "table",
+                                url: AntibacterialMedAntiMedAntiMedUseTrendByJbmc
                             }
                         ]
                     },
@@ -1124,7 +1127,7 @@ export const MenuList = [
                             {
                                 name: "抗菌药物占药费总额百分率",
                                 type: "pie",
-                                url: AntibacterialMedAntiMedTotalFeeProportionUrl0
+                                url: AntibacterialMedAntiMedTotalFeeProportionUrl
                             }
                         ]
                     },
@@ -1132,30 +1135,40 @@ export const MenuList = [
                         id: "587",
                         title: "各病种抗菌药物占药费总额百分比",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: AntibacterialMedAntiMedTotalFeeProportionUrl1
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "各病种抗菌药物占药费总额百分比",
+                                type: "table",
+                                url: AntibacterialMedAntiMedAntiMedTotalFeeProportionByDepDisease1
+                            }
+                        ]
                     },
                     {
                         id: "588",
                         title: "各科室抗菌药物占药费总额百分比",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: AntibacterialMedAntiMedTotalFeeProportionUrl2
-                        
+                        path: "/main/echarts",
+                        echarts: [
+                            {
+                                name: "各科室抗菌药物占药费总额百分比",
+                                type: "table",
+                                url: AntibacterialMedAntiMedAntiMedTotalFeeProportionByDepDisease2
+                            }
+                        ]
+
                     },
                     {
                         id: "589",
                         title: "各医生住院患者人均使用抗菌药物品种数",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: AntibacterialMedInPatUseAntiMedVarietyUrl0
+                        path: "/main/echarts", echarts: [{ name: "各医生住院患者人均使用抗菌药物品种数", type: "table", url: AntibacterialMedInPatUseAntiMedVarietyUrl0 }]
                     },
                     {
                         id: "5810",
                         title: "各病种住院患者人均使用抗菌药物品种数",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: AntibacterialMedInPatUseAntiMedVarietyUrl1
+                        path: "/main/echarts", echarts: [{ name: "各病种住院患者人均使用抗菌药物品种数", type: "table", url: AntibacterialMedInPatUseAntiMedVarietyUrl1 }]
                     },
                     {
                         id: "5811",
@@ -1165,7 +1178,7 @@ export const MenuList = [
                         echarts: [
                             {
                                 name: "住院患者人均使用抗菌药物费用趋势",
-                                type: "bar",
+                                type: "line",
                                 url: AntibacterialMedInPatUseAntiMedFeeUrl0
                             }
                         ]
@@ -1177,7 +1190,7 @@ export const MenuList = [
                         path: "/main/echarts",
                         echarts: [
                             {
-                                name: "住院患者人均使用抗菌药物费用趋势",
+                                name: "各病种住院患者人均使用抗菌药物费用",
                                 type: "bar",
                                 url: AntibacterialMedInPatUseAntiMedFeeUrl1
                             }
@@ -1185,17 +1198,15 @@ export const MenuList = [
                     },
                     {
                         id: "5813",
-                        title: "各医生各类特殊药品开药金额排名",
+                        title: "各科室住院患者使用抗菌药物比例对比",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: AntibacterialMedInPatUseAntiMedProportionUrl0
+                        path: "/main/echarts", echarts: [{ name: "各科室住院患者使用抗菌药物比例对比", type: "table", url: AntibacterialMedInPatUseAntiMedProportionUrl0 }]
                     },
                     {
                         id: "5814",
-                        title: "各科室住院患者使用抗菌药物比例对比",
+                        title: "各病种住院患者人均使用抗菌药物费用",
                         picker: "MonthPicker",
-                        path: "/main/table",
-                        type: AntibacterialMedInPatUseAntiMedProportionUrl1
+                        path: "/main/echarts", echarts: [{ name: "各病种住院患者人均使用抗菌药物费用", type: "table", url: AntibacterialMedInPatUseAntiMedProportionUrl1 }]
                     },
                     {
                         id: "5815",
@@ -1227,23 +1238,23 @@ export const MenuList = [
             },
             {
                 id: '59',
-                title: "药品库存趋势分析",
+                title: "药品库存分析",
                 path: "/main/echarts",
                 echarts: [
                     {
-                        name: "药品库存趋势分析",
+                        name: "药品库存分析",
                         type: "line",
                         url: MedAnalysisMedStockTrendUrl
                     }
                 ]
-             
+
             },
             // {
             //     id: '510',
             //     title: "药品使用模式分析",
             //     path: "/main/bar",
             //     type: MedAnalysisMedStockTrendUrl
-                
+
             // },
 
         ]
@@ -1256,9 +1267,15 @@ export const MenuList = [
             {
                 id: '61',
                 title: "疾病人群分析",
-                path: "/main/table",
                 picker: "MonthPicker",
-                type: MedicalCareAnalysisDiseasePatUrl
+                path: "/main/echarts",
+                echarts: [
+                    {
+                        name: "疾病人群分析",
+                        type: "BarNegative",
+                        url: MedicalCareAnalysisDiseasePatUrl
+                    }
+                ]
                 // list:[
                 //     {
                 //         id: "611",
@@ -1281,7 +1298,7 @@ export const MenuList = [
                 echarts: [
                     {
                         name: "单病种分析",
-                        type: "pie",
+                        type: "table",
                         url: MedicalCareAnalysisDiseaseAnalysisUrl
                     }
                 ]
@@ -1329,7 +1346,7 @@ export const MenuList = [
                             }
                         ]
                     }
-                    
+
                 ]
             },
             {
@@ -1357,7 +1374,7 @@ export const MenuList = [
                         echarts: [
                             {
                                 name: "全院治愈好转率趋势分析",
-                                type: "pie",
+                                type: "line",
                                 url: CureRateByHospitalUrl
                             }
                         ]
@@ -1370,7 +1387,7 @@ export const MenuList = [
                         echarts: [
                             {
                                 name: "各病种治愈好转率分析",
-                                type: "pie",
+                                type: "table",
                                 url: CureRateByDiseaseUrl
                             }
                         ]

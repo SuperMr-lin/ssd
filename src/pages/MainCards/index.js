@@ -18,6 +18,7 @@ class MainReport extends Component {
         super(props);
         this.state={
             tjrq: "",
+            loading:false,
             cardData:{}
         }
     }
@@ -28,7 +29,7 @@ class MainReport extends Component {
         const { dispatch } = this.props;
         if (currentdate === "") {
             const dateFormat = 'YYYY-MM-DD';
-            currentdate = moment().format(dateFormat);
+            currentdate = moment().day(0).format(dateFormat);
         }
         // const echartsUrl = this.props.location.state.type;
         const echartsUrl = '/Report/DeansDaily';
@@ -40,11 +41,15 @@ class MainReport extends Component {
             type: 'card/fetchDeansDaily',
             payload: {payload}
         }).then((res)=>{
-            const cardData = res[0];
-            this.setState({
-                tjrq: currentdate,
-                cardData: cardData,
-            })
+            if (res.code===1){
+                const cardData = res.data[0];
+                this.setState({
+                    tjrq: currentdate,
+                    loading:true,
+                    cardData: cardData,
+                })
+            }
+            
         })
     }
     handleSubmit = (e) => {
@@ -67,9 +72,8 @@ class MainReport extends Component {
         });
     }
     render() {
-        const { cardData } = this.state;
+        const { cardData, loading } = this.state;
         const { getFieldDecorator } = this.props.form;
-        const { card } = this.props;
         return (
             <Layout style={{ height: '100%' }}>
                 <Header style={{ background: '#fff' }}>
@@ -80,7 +84,7 @@ class MainReport extends Component {
                 </Header>
                 <Content className="main_container">
                     {
-                        card.code === 0 ? <Alert message="暂无数据，请稍后再试" type="warning" showIcon closable /> : <Cards card={cardData} />
+                        !loading ? <Alert message="暂无数据，请稍后再试" type="warning" showIcon closable /> : <Cards card={cardData} />
                     }
                 </Content>
             </Layout>

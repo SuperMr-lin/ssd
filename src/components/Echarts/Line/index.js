@@ -31,17 +31,9 @@ const getOption = (data, echartsTitle) => {
             }
         }
     }
-    const option = {
-        title: {
-            text: echartsTitle
-        },
-        tooltip: {
-            trigger: 'axis'
-        },
-        legend: {
-            data: legendDate
-        },
-        dataZoom: [
+    var dataZoom = [];
+    if (seriesDate[0].data.length > 30) {
+        dataZoom = [
             {
                 show: true,
                 realtime: true,
@@ -60,10 +52,22 @@ const getOption = (data, echartsTitle) => {
                 filterMode: 'empty',
                 width: 30,
                 height: '80%',
-                showDataShadow: false,
+                showDataShadow: true,
                 left: '93%'
             }
-        ],
+        ]
+    }
+    const option = {
+        title: {
+            text: echartsTitle
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: legendDate
+        },
+        dataZoom: dataZoom,
         grid: {
             left: '10%',
             right: '10%',

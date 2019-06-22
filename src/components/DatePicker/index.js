@@ -2,13 +2,15 @@ import React from 'react';
 import { DatePicker, Form, Button, LocaleProvider } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import moment from 'moment';
+import 'moment/locale/zh-cn';
 import 'antd/dist/antd.css';
 import styles from "./index.less";
 
-
+moment.locale('zh-cn');
 const { MonthPicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
-const currentdate = moment().format(dateFormat);
+// const currentdate = moment().day(0).format(dateFormat);
+const currentdate = moment().startOf('day').subtract(1, 'days');
 const setPicker = (props) => {
     let State = {
         isopen: false,
@@ -22,8 +24,8 @@ const setPicker = (props) => {
                 label="当前时间"
             >
                 {props.getFieldDecorator('date-picker', {
-                    initialValue: moment(props.initialValue) || null,
-                    // initialValue: moment(props.currentdate),
+                    //initialValue: moment(props.initialValue) || null,
+                     initialValue: moment(currentdate),
                     rules: [
                         { required: true, message: "*请选择时间" }
                     ]
@@ -41,7 +43,7 @@ const setPicker = (props) => {
                 label="当前时间"
             >
                 {props.getFieldDecorator('date-picker', {
-                    initialValue: moment(props.currentdate),
+                    initialValue: moment(currentdate),
                     rules: [
                         { required: true, message: "*请选择时间" }
                     ]
@@ -71,8 +73,8 @@ const setPicker = (props) => {
                 label="当前时间"
             >
                 {props.getFieldDecorator('date-picker', {
-                    initialValue: moment(props.initialValue) || null,
-                    // initialValue: moment(props.currentdate),
+                    //initialValue: moment(props.initialValue) || null,
+                     initialValue: moment(currentdate),
                     rules: [
                         { required: true, message: "*请选择时间" }
                     ]

@@ -20,7 +20,23 @@ const getOption = (data, echartsTitle) => {
         label: {
             normal: {
                 show: true,
-                position: 'top'
+                position: 'insideBottom',
+                rotate:90,
+                align:"left",
+                verticalAlign:"middle",
+                formatter: function (params) {
+                    const { seriesIndex, data, seriesName}=params;
+                    let name = seriesName;
+                    let val = data[(seriesIndex+1)];
+                    return val;
+                    return name + " : " + val;
+                },
+               // fontSize: 16,   
+                rich: {
+                    name: {
+                        textBorderColor: '#fff'
+                    }
+                }
             }
         }
     }
@@ -29,7 +45,7 @@ const getOption = (data, echartsTitle) => {
         label: {
             normal: {
                 show: true,
-                position: 'top',
+                position: 'insideBottom',
                 formatter: function (params) {
                     let tmp = params.value;
                     let len = tmp.length - 1;
@@ -42,7 +58,6 @@ const getOption = (data, echartsTitle) => {
         Bartmp = [];
         Pietmp = {};
         if (i === 0) {
-            legendShow = false;
             for (var key in echartsDate[i]) {
                 name = getFirstAttr(echartsDate[i]);
                 Datename.push(key);
@@ -50,7 +65,7 @@ const getOption = (data, echartsTitle) => {
         }
         xAxisDate.push(echartsDate[i][name]);
         for (let j = 0; j < Datename.length; j++) {
-            let element = echartsDate[i][Datename[j]].toString();
+            let element = echartsDate[i][Datename[j]].toString().trim();
             if (element.indexOf("%") > -1) {
                 isPercentage = j;
                 Bartmp.push(element.replace("%", ""));
@@ -75,19 +90,38 @@ const getOption = (data, echartsTitle) => {
         }
     }
     sourceDate.unshift(Datename);
-    const option = {
-        title: {
-            text: echartsTitle,
-            x: 'center'
-        },
-        legend: {
-            show: legendShow,
-            orient: 'vertical',
-            left: 'left',
-        },
-        tooltip: {
-        },
-        dataZoom: [
+    //
+    if (seriesStyle.length < 2){
+        legendShow = false;
+        seriesStyle[0]={};
+        seriesStyle[0]={
+            type: 'bar',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'insideBottom',
+                    rotate: 90,
+                    align: "left",
+                    verticalAlign: "middle",
+                    formatter: function (params) {
+                        const { seriesIndex, data, name } = params;
+                        //let name = seriesName;
+                        let val = data[(seriesIndex + 1)];
+                        return val;
+                    },
+                   // fontSize: 16,
+                    rich: {
+                        name: {
+                            textBorderColor: '#fff'
+                        }
+                    }
+                }
+            }
+        }
+    }
+    var dataZoom=[];
+    if (sourceDate.length>10){
+        dataZoom=[
             {
                 show: true,
                 realtime: true,
@@ -109,20 +143,39 @@ const getOption = (data, echartsTitle) => {
                 showDataShadow: true,
                 left: '93%'
             }
-        ],
+        ]
+    }
+    const option = {
+        title: {
+            text: echartsTitle,
+            x: 'center'
+        },
+        legend: {
+            show: legendShow,
+            orient: 'vertical',
+            left: 'left',
+        },
+        tooltip: {
+        },
+        dataZoom: dataZoom,
         dataset: {
             source: sourceDate
         },
         grid: {
-            left: '10%',
+            left: '120px',
             right: '10%',
             bottom: '10%',
+            top:"10%",
             containLabel: true
         },
         xAxis: { 
-            type: 'category'
+            type: 'category',
+            axisLabel: {
+                rotate: 60
+            },
          },
-        yAxis: {},
+        yAxis: {
+        },
         series: seriesStyle
     };
     return option;

@@ -17,7 +17,7 @@ export default {
           type: 'save',
           payload: data.data,
         });
-        return data.data.data;
+        return data.data;
       },
       
     },

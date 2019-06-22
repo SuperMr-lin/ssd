@@ -1,8 +1,8 @@
 //请求路径配置
 //端口 http://192.168.1.111:8082/
 // export const HeadPort ="http://service.schhsw.com:7300/mock/5c77a7a7ddfb6e0016d016c6/DSS";
-// export const HeadPort = "http://localhost:2334";
 export const HeadPort = "http://10.66.66.12:2334";
+// export const HeadPort = "localhost:61192";
 //user
 //用户
 export const UserUrl =  "/api/user";
@@ -223,15 +223,15 @@ export const AntibacterialMedAntiMedPercentUrl0 = "/MedAnalysis/AntibacterialMed
 // 5.8.3 各医生就诊使用抗菌药物占比
 export const AntibacterialMedAntiMedPercentUrl1 = "/MedAnalysis/AntibacterialMed/VisAntiMedPercent?type=1";
 // 5.8.4 抗菌药物使用强度趋势图
-export const AntibacterialMedAntiMedUseTrendUrl0 = "/MedAnalysis/AntibacterialMed/AntiMedUseTrend?type=0";
+export const AntibacterialMedAntiMedAntiMedUseTrendByMonth = "/MedAnalysis/AntibacterialMed/AntiMedUseTrendByMonth";
 // 5.8.5 各病种抗菌药物使用强度对比
-export const AntibacterialMedAntiMedUseTrendUrl1 = "/MedAnalysis/AntibacterialMed/AntiMedUseTrend?type=1";
-// 5.8.6 抗菌药物占药费总额百分率
-export const AntibacterialMedAntiMedTotalFeeProportionUrl0 = "/MedAnalysis/AntibacterialMed/AntiMedTotalFeeProportion?type=0";
+export const AntibacterialMedAntiMedAntiMedUseTrendByJbmc = "/MedAnalysis/AntibacterialMed/AntiMedUseTrendByJbmc";
+// 5.8.6 抗菌药物占药费总额百分率 
+export const AntibacterialMedAntiMedTotalFeeProportionUrl = "/MedAnalysis/AntibacterialMed/AntiMedTotalFeeProportion";
 // 5.8.7 各病种抗菌药物占药费总额百分比
-export const AntibacterialMedAntiMedTotalFeeProportionUrl1 = "/MedAnalysis/AntibacterialMed/AntiMedTotalFeeProportion?type=1";
+export const AntibacterialMedAntiMedAntiMedTotalFeeProportionByDepDisease1 = "/MedAnalysis/AntibacterialMed/AntiMedTotalFeeProportionByDepDisease?type=1";
 // 5.8.8 各科室抗菌药物占药费总额百分比
-export const AntibacterialMedAntiMedTotalFeeProportionUrl2 = "/MedAnalysis/AntibacterialMed/AntiMedTotalFeeProportion?type=2";
+export const AntibacterialMedAntiMedAntiMedTotalFeeProportionByDepDisease2 = "/MedAnalysis/AntibacterialMed/AntiMedTotalFeeProportionByDepDisease?type=2";
 // 5.8.9 各医生住院患者人均使用抗菌药物品种数
 export const AntibacterialMedInPatUseAntiMedVarietyUrl0 = "/MedAnalysis/AntibacterialMed/InPatUseAntiMedVariety?type=0";
 // 5.8.10 各病种住院患者人均使用抗菌药物品种数

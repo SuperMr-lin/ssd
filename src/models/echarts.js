@@ -20,7 +20,14 @@ export default {
             const queryUrl = payload.payload.echartsUrl;
             const echartsType = payload.payload.echartsType;
             const echartsName = payload.payload.echartsName;
-            const data = yield queryPost(queryUrl, NewPayload);
+            const data = yield queryPost(queryUrl, NewPayload).catch((err)=>{
+                console.log("err")
+                console.log(err)
+                const echartsData = {
+                    code: 0
+                }
+                return echartsData;
+            })
             yield put({
                 type: 'changeEchartsStatus',
                 payload:{

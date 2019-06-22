@@ -26,5 +26,13 @@ export default function request(url, options) {
     .then(checkStatus)
     .then(parseJSON)
     .then(data => ({ data }))
-    .catch(err => ({ err }));
+    .catch(err => { 
+      // console.log("err")
+      // const echartsData = {
+      //   code: 0
+      // }
+      //console.log(err)
+      //console.log(echartsData)
+     // return echartsData;
+    });
 }

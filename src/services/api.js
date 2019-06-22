@@ -24,5 +24,12 @@ export function queryPost(url,params) {
     method: 'POST',
     //接受的参数 这里是个对象
     body: payload
+  }).catch((err)=>{
+    console.log("err")
+    console.log(err)
+    const echartsData = {
+      code: 0
+    }
+    return echartsData;
   });
 }
